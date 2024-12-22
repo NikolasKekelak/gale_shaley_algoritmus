@@ -1,0 +1,3 @@
+C:/Users/nikolas/CLionProjects/galey_shaley/cmake-build-debug/CMakeFiles/galey_shaley.dir
+C:/Users/nikolas/CLionProjects/galey_shaley/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/nikolas/CLionProjects/galey_shaley/cmake-build-debug/CMakeFiles/rebuild_cache.dir
