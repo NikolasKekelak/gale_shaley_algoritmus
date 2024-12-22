@@ -73,7 +73,7 @@ void find_pairing(INPUT FIRST, INPUT SECOND, int numb_of_pairs) {
 
             if (iterated.is_taken)continue; // ak je vyberajuci zabraty, pokracuj
 
-            if ( !SECOND[ iterated.top() ].is_taken   ) { //ak vyberajuci si vybere niekoho kto nie je zadany, spoja sa
+            if ( !wanted.is_taken   ) { //ak vyberajuci si vybere niekoho kto nie je zadany, spoja sa
 
                 count++;
                 iterated.current_partner = iterated.top(); // navzajom si priradia current partner
