@@ -74,13 +74,11 @@ void find_pairing(INPUT FIRST, INPUT SECOND, int numb_of_pairs) {
             if (iterated.is_taken)continue; // ak je vyberajuci zabraty, pokracuj
 
             if ( !wanted.is_taken   ) { //ak vyberajuci si vybere niekoho kto nie je zadany, spoja sa
-
                 count++;
                 iterated.current_partner = iterated.top(); // navzajom si priradia current partner
                 wanted.current_partner = iterated.name;
                 wanted.is_taken = true;
                 iterated.is_taken = true;
-
             }
             //ak je momentalna osoba viac chcena, stara sa nastavi na nezadanu
             else if ( wanted.more_wants( iterated.name ) ) {
@@ -114,7 +112,7 @@ int main() {
     srand(time(NULL));
 
     int numb_pairs;
-    cout<<"Zadaj pocet parov: ";
+    cout<<"Input number of pairings: ";
     cin >> numb_pairs;
     cout<<"\n";
     if (numb_pairs > 7)
@@ -152,13 +150,13 @@ int main() {
     }
 
 
-    cout<<"\nChces vidiet vysledok? (klikni hocico)";
+    cout<<"\nWanna se results? (press anything to continue)";
     getch();
-    cout<<"\nKed prve vyberaju zeny:";
+    cout<<"\nIf women chose first:";
     find_pairing(women, men,numb_pairs);
-    cout<<"\nKed prvy vyberaju muzi:";
+    cout<<"\nIf men chose first:";
     find_pairing(men, women,numb_pairs);
-    cout<<"\nPre zrusenie okna dvojklikni hocijake tlacitko";
+    cout<<"\n(click 2x any key to continue)";
     getch();
     getch();
     return 0;
