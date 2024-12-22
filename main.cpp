@@ -5,6 +5,9 @@
 #include <deque>
 #include <conio.h>
 #define INPUT unordered_map<char,definitely_human_being>
+#define iterated it.second
+#define wanted SECOND[ iterated.top() ]
+
 
 using namespace std;
 
@@ -35,17 +38,21 @@ class definitely_human_being {
         char current_partner;
         deque<char> priorities;
 
-
-    bool more_wants(char option) {
+    char top() {
+        return priorities[0];
+    }
+    bool more_wants(char option) { //ak osoba dana v parametry je viac chcena tak vrat true inak false
         return ( find(priorities.begin(), priorities.end(), option) <
             find(priorities.begin(), priorities.end(), current_partner) );
     }
 
 };
 
+//potrebne data-structures
 unordered_map< char,definitely_human_being > men, women;
 deque<char> men_p, women_p;
 
+//na vytvorenie noveho jedinca
 definitely_human_being new_human(char name , deque<char> priorities)  {
     definitely_human_being _new_human;
     _new_human.name = name;
@@ -54,40 +61,44 @@ definitely_human_being new_human(char name , deque<char> priorities)  {
     return _new_human;
 }
 
+
+//Tato funkcia nam najde najlepsie parovanie a vypise ho
 void find_pairing(INPUT FIRST, INPUT SECOND, int numb_of_pairs) {
     int count=0;
+
+    //cyklus opakujuci sa dokym nedosiahneme potrebneho poctu parov
     while (count<numb_of_pairs) {
 
         for (auto &it : FIRST) {
 
-            if (it.second.is_taken) {;continue;} // ak je vyberajuci zabraty, pokracuj
+            if (iterated.is_taken)continue; // ak je vyberajuci zabraty, pokracuj
 
-            if ( !SECOND[ it.second.priorities[0] ].is_taken   ) { //ak vyberajuci si vybere niekoho kto nie je zadany, spoja sa
+            if ( !SECOND[ iterated.top() ].is_taken   ) { //ak vyberajuci si vybere niekoho kto nie je zadany, spoja sa
+
                 count++;
-
-                it.second.current_partner = it.second.priorities[0]; // navzajom si priradia current partner
-                SECOND[ it.second.priorities[0] ].current_partner = it.second.name;
-
-                SECOND[ it.second.priorities[0] ].is_taken = true;
-                it.second.is_taken = true;
+                iterated.current_partner = iterated.top(); // navzajom si priradia current partner
+                wanted.current_partner = iterated.name;
+                wanted.is_taken = true;
+                iterated.is_taken = true;
 
             }
+            //ak je momentalna osoba viac chcena, stara sa nastavi na nezadanu
+            else if ( wanted.more_wants( iterated.name ) ) {
 
-            else if ( SECOND[ it.second.priorities[0] ].more_wants( it.second.name ) ) {
-                FIRST[SECOND[ it.second.priorities[0] ].current_partner].is_taken = false;
-
-                it.second.is_taken=true;
-                it.second.current_partner =  it.second.priorities[0] ;
-                SECOND[ it.second.priorities[0] ].current_partner = it.second.name;
+                FIRST[wanted.current_partner].is_taken = false;
+                iterated.is_taken=true;
+                iterated.current_partner =  iterated.top() ;
+                wanted.current_partner = iterated.name;
             }
-
-            it.second.priorities.pop_front();
+            //zbavi sa prveho poradi, pretoze uz je zabraty alebo nepotrebny
+            iterated.priorities.pop_front();
         }
 
     }
+    //vypis vysledku
     cout<<"\n";
     for (auto it : FIRST) {
-        cout<<naming[it.second.name]<<" - "<< naming[it.second.current_partner] <<"\n";
+        cout<<naming[iterated.name]<<" - "<< naming[iterated.current_partner] <<"\n";
     }
 }
 
@@ -105,12 +116,13 @@ int main() {
     int numb_pairs;
     cout<<"Zadaj pocet parov: ";
     cin >> numb_pairs;
-
+    cout<<"\n";
     if (numb_pairs > 7)
         numb_pairs = 7;
     if (numb_pairs < 3)
         numb_pairs = 3;
 
+    //vytvorenie vectorov na
     for (int c='a'; c<('a'+numb_pairs); c++) {
         women_p.push_back( c );
         men_p.push_back( c+7 );
@@ -122,6 +134,7 @@ int main() {
     }
 
     //vypis
+
     for (int c='a'; c<('a'+numb_pairs); c++) {
         cout<<setw(10)<< naming[women[c].name]<<" : ";
         for (auto it : women[c].priorities) {
@@ -137,6 +150,8 @@ int main() {
         }
         cout<<endl;
     }
+
+
     cout<<"\nChces vidiet vysledok? (klikni hocico)";
     getch();
     cout<<"\nKed prve vyberaju zeny:";
