@@ -150,7 +150,7 @@ int main() {
     }
 
 
-    cout<<"\nWanna se results? (press anything to continue)";
+    cout<<"\nWanna see results? (press anything to continue)";
     getch();
     cout<<"\nIf women chose first:";
     find_pairing(women, men,numb_pairs);
